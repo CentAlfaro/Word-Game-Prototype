@@ -1,18 +1,19 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class GridGenerator : MonoBehaviour
+namespace Grid_System
 {
-    // Start is called before the first frame update
-    void Start()
+    public class GridGenerator : MonoBehaviour
     {
-        Debug.Log("Hello World!");
-    }
+        // Start is called before the first frame update
+        void Start()
+        {
+            Debug.Log("Hello World!");
+        }
 
-    // Update is called once per frame
-    void Update()
-    {
+        // Update is called once per frame
+        void Update()
+        {
         
+        }
     }
 }
