@@ -7,7 +7,10 @@ namespace Grid_System
         // Start is called before the first frame update
         void Start()
         {
-            Debug.Log("Hello World!");
+            foreach (var cellData in ArrayList.CellData)
+            {
+                Debug.Log($"Letter: {cellData.Letter} || AssignedInt: {cellData.AssignedInt}");
+            }
         }
 
         // Update is called once per frame
