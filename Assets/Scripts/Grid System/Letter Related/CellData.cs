@@ -1,7 +1,6 @@
 ﻿using System;
-using UnityEngine;
 
-namespace Grid_System
+namespace Grid_System.Letter_Related
 {
     [Serializable]
     public class CellData

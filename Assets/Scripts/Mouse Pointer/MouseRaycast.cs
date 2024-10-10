@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Events;
-using Letter_System;
+using Grid_System.Letter_Related;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.Serialization;
@@ -62,7 +62,7 @@ namespace Mouse_Pointer
                     }
                     
                     //each new collected letter will be added to the list
-                    result.gameObject.GetComponent<Image>().color = Color.red;
+                    result.gameObject.GetComponent<LetterScript>().Img.color = Color.red;
                     collectedLetters.Add(result.gameObject);
                     latestLetter = result.gameObject;
                     collectedWord += result.gameObject.GetComponent<LetterScript>().Letter;
@@ -83,7 +83,7 @@ namespace Mouse_Pointer
             {
                 foreach (var obj in collectedLetters)
                 {
-                    obj.GetComponent<Image>().color = Color.green;
+                    obj.GetComponent<LetterScript>().Img.color = Color.green;
                     obj.GetComponent<LetterScript>().IsCleared = true;
                 }
             }
@@ -96,10 +96,10 @@ namespace Mouse_Pointer
                     //if the collected word includes a cleared word, retain its cell's green color
                     if (obj.GetComponent<LetterScript>().IsCleared)
                     {
-                        obj.GetComponent<Image>().color = Color.green;
+                        obj.GetComponent<LetterScript>().Img.color = Color.green;
                         continue;
                     }
-                    obj.GetComponent<Image>().color = Color.white;
+                    obj.GetComponent<LetterScript>().Img.color = Color.white;
                 }
             }
             

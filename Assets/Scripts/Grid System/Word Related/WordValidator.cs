@@ -1,22 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using Events;
-using TMPro;
+﻿using Events;
 using UnityEngine;
 
-namespace Letter_System
+namespace Grid_System.Word_Related
 {
     public class WordValidator : MonoBehaviour
     {
-        [SerializeField]private List<TextMeshProUGUI> listOfWords = new List<TextMeshProUGUI>();
+        [SerializeField] private GameObject wordContainer;
 
         private void RunValidation(string wordToValidate)
         {
-            foreach (var word in listOfWords)
+            foreach (var child in wordContainer.transform.GetComponentsInChildren<WordScript>())
             {
-                if (word.text == wordToValidate)
+                if (child.Word == wordToValidate)
                 {
-                    word.fontStyle = FontStyles.Strikethrough;
+                    child.ClearWord();
                     WordSystemEvents.ON_CONVERT_CELL_COLORS?.Invoke(true);
                     return;
                     //if the correct word has been found in the list, stop the validation process.
