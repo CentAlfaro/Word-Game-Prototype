@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using Serialized_Objects;
+using Scriptable_Objects;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -15,6 +15,7 @@ namespace Grid_System.Word_Related
         [SerializeField] private GameObject wordPrefab;
         [SerializeField] private GameObject listContainer;
         [SerializeField] private GridGenerator gridGenerator;
+        [SerializeField] private WordValidator wordValidator;
 
         private void Start()
         {
@@ -31,7 +32,8 @@ namespace Grid_System.Word_Related
                 newWordObj.name = $"{word}";
                 newWordObj.GetComponent<WordScript>().SetValues(word);
             }
-            gridGenerator.GenerateGrid(rng);
+            wordValidator.InitializeWordCount(wordData[rng].wordList.Count);
+            gridGenerator.GenerateGrid(wordData[rng].wordListID);
         }
     }
 }

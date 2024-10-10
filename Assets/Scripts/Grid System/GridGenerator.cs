@@ -10,14 +10,14 @@ namespace Grid_System
         [SerializeField] private GameObject letterPrefab;
         [SerializeField] private GameObject gridContainer;
         
-        public void GenerateGrid(int dataInt)
+        public void GenerateGrid(string dataID)
         {
             foreach (Transform child in gridContainer.transform)
             {
                 Destroy(child.gameObject);
             }
             
-            foreach (var cellData in ArrayList.CellDataList[dataInt])
+            foreach (var cellData in ArrayList.CellDataList[dataID])
             {
                 var currentLetter = Instantiate(letterPrefab, gridContainer.transform);
                 currentLetter.name = $"Letter {cellData.Letter}";

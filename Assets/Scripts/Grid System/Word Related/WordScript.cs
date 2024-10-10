@@ -26,6 +26,7 @@ namespace Grid_System.Word_Related
         public void ClearWord()
         {
             textMesh.fontStyle = FontStyles.Strikethrough;
+            isCleared = true;
         }
     }
 }

@@ -2275,6 +2275,7 @@ MonoBehaviour:
   wordPrefab: {fileID: 5482751117404280222, guid: d986ce668c0b06546a8b72b99c8977fc, type: 3}
   listContainer: {fileID: 1863758419}
   gridGenerator: {fileID: 956787294}
+  wordValidator: {fileID: 1181664554}
 --- !u!1001 &1031917146
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2838,6 +2839,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   wordContainer: {fileID: 1863758419}
+  TotalWordCount: 0
+  completedWordCount: 0
 --- !u!1001 &1280112769
 PrefabInstance:
   m_ObjectHideFlags: 0

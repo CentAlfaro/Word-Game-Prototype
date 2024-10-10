@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6c52e05e998d45a889047c5d7931c54b, type: 3}
   m_Name: Word Set 2
   m_EditorClassIdentifier: 
+  wordListID: word-set-2
   wordList:
   - AIM
   - CHIAO
