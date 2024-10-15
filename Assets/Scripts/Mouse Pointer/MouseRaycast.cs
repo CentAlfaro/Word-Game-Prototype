@@ -150,6 +150,8 @@ namespace Mouse_Pointer
                     obj.GetComponent<LetterScript>().Img.color = defaultColor;
                     obj.GetComponent<LetterScript>().IsCleared = true;
                 }
+                
+                WordSystemEvents.ON_REORGANIZE_HIGHLIGHT_MATERIALS?.Invoke();
             }
             
             //if the collected strings does not form a valid word, change back the cell colors to white
@@ -157,7 +159,6 @@ namespace Mouse_Pointer
             {
                 foreach (var obj in collectedLetters)
                 {
-                    
                     obj.GetComponent<LetterScript>().Img.color = defaultColor;
                 }
                 WordSystemEvents.ON_DELETE_HIGHLIGHT?.Invoke();

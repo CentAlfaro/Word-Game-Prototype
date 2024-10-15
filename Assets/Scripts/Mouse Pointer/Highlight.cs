@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Events;
 using TMPro;
 using UnityEngine;
@@ -8,8 +9,15 @@ namespace Mouse_Pointer
 {
     public class Highlight : MonoBehaviour
     {
+        [Header("Materials References")]
+        [SerializeField] private List<Material> materials = new List<Material>();
+        [SerializeField] private Material currentMaterial;
+
+        [Header("Highlighter Instantiation References")]
         [SerializeField] private GameObject highlightPrefab;
         [SerializeField] private GameObject parentContainer;
+        
+        
         
         private GameObject highlightObj;
         private LineRenderer lineRenderer;
@@ -20,6 +28,7 @@ namespace Mouse_Pointer
         {
             highlightObj = Instantiate(highlightPrefab, Vector3.zero, Quaternion.identity, parentContainer.transform);
             lineRenderer = highlightObj.GetComponent<LineRenderer>();
+            lineRenderer.material = SelectedMaterial();
             lineRenderer.positionCount = 2;
             startMousePos = position.transform.position;
         }
@@ -48,12 +57,35 @@ namespace Mouse_Pointer
             lineRenderer = null;
         }
 
+        private Material SelectedMaterial()
+        {
+            if (materials.Count <= 1)
+            {
+                return materials[0];
+            }
+
+            if (!currentMaterial)
+            {
+                ReorganizeMaterials();
+            }
+            
+            return currentMaterial;
+        }
+
+        private void ReorganizeMaterials()
+        {
+            currentMaterial = materials[0];
+            materials.Remove(currentMaterial);
+            materials.Add(currentMaterial);
+        }
+
         private void OnEnable()
         {
             WordSystemEvents.ON_CREATE_HIGHLIGHT += SetStartMousePos;
             WordSystemEvents.ON_REPOSITION_HIGHLIGHT += SetCurrentMousePos;
             WordSystemEvents.ON_RELEASE_HIGHLIGHT += SetEndMousePos;
             WordSystemEvents.ON_DELETE_HIGHLIGHT += DeleteCurrentHighlight;
+            WordSystemEvents.ON_REORGANIZE_HIGHLIGHT_MATERIALS += ReorganizeMaterials;
         }
 
         private void OnDisable()
@@ -62,6 +94,7 @@ namespace Mouse_Pointer
             WordSystemEvents.ON_REPOSITION_HIGHLIGHT -= SetCurrentMousePos;
             WordSystemEvents.ON_RELEASE_HIGHLIGHT -= SetEndMousePos;
             WordSystemEvents.ON_DELETE_HIGHLIGHT -= DeleteCurrentHighlight;
+            WordSystemEvents.ON_REORGANIZE_HIGHLIGHT_MATERIALS += ReorganizeMaterials;
         }
     }
 }

@@ -1841,6 +1841,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6f6a8a58497c4c7384cdcb1648f62b53, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  materials:
+  - {fileID: 2100000, guid: 30184b03766bf2e44bc7037b80e512d1, type: 2}
+  - {fileID: 2100000, guid: 097759353eb0eb64984cc556c14f506b, type: 2}
+  - {fileID: 2100000, guid: f3ba4bd71d1f3ad4cb122bf4a46fb149, type: 2}
+  - {fileID: 2100000, guid: d7c6bdbf1a530ef4fb8eeebacd48171c, type: 2}
+  - {fileID: 2100000, guid: be04b653f184d3b46b8584dc00b99883, type: 2}
+  - {fileID: 2100000, guid: 166ca8a3fceb8f640aafd96443243cfc, type: 2}
+  - {fileID: 2100000, guid: 065a0787a9e104f479a3cef0326514da, type: 2}
+  - {fileID: 2100000, guid: 382783bf418ab644489ccea4f2cdbfea, type: 2}
+  - {fileID: 2100000, guid: 7aa128d403a558c44b2fee986b547ba2, type: 2}
+  - {fileID: 2100000, guid: 332e259dd8f5c8c4199ff5e22a642962, type: 2}
+  - {fileID: 2100000, guid: 2c26d218795c0994893f51c50a87618f, type: 2}
+  - {fileID: 2100000, guid: 61a25d2e3db274b42831cf7c882dcecc, type: 2}
   highlightPrefab: {fileID: 7169899255890815612, guid: 9fda1180cb9e6774abcfb364c92f4cf7, type: 3}
   parentContainer: {fileID: 1463060315}
 --- !u!1 &899261348

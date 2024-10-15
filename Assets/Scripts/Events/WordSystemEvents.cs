@@ -13,5 +13,7 @@ namespace Events
         public static Action ON_REPOSITION_HIGHLIGHT;
         public static Action<GameObject> ON_RELEASE_HIGHLIGHT;
         public static Action ON_DELETE_HIGHLIGHT;
+
+        public static Action ON_REORGANIZE_HIGHLIGHT_MATERIALS;
     }
 }
