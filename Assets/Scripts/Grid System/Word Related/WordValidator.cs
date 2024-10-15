@@ -22,10 +22,14 @@ namespace Grid_System.Word_Related
             {
                 if (child.Word == wordToValidate)
                 {
-                    if (!child.IsCleared)
+                    if (child.IsCleared)
                     {
-                        completedWordCount++;
+                        Debug.Log($"{wordToValidate} is already cleared!");
+                        WordSystemEvents.ON_CONVERT_CELL_COLORS?.Invoke(false);
+                        return;
                     }
+                    
+                    completedWordCount++;
                     child.ClearWord();
                     WordSystemEvents.ON_CONVERT_CELL_COLORS?.Invoke(true);
                     CheckForCompletion();
