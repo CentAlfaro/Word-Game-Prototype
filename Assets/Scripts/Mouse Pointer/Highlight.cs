@@ -31,12 +31,12 @@ namespace Mouse_Pointer
             lineRenderer.material = SelectedMaterial();
             lineRenderer.positionCount = 2;
             startMousePos = position.transform.position;
+            lineRenderer.SetPosition(0, new Vector3(startMousePos.x, startMousePos.y, 0f));
         }
 
         private void SetCurrentMousePos()
         {
             mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            lineRenderer.SetPosition(0, new Vector3(startMousePos.x, startMousePos.y, 0f));
             lineRenderer.SetPosition(1, new Vector3(mousePos.x, mousePos.y, 0f));
         }
 

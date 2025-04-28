@@ -18,6 +18,14 @@ namespace Mouse_Pointer
         [SerializeField] private Color defaultColor;
         [SerializeField] private Color highlightColor;
         
+        [Header("First Letter Positions")]
+        [SerializeField] private int firstLetterXPos;
+        [SerializeField] private int firstLetterYPos;
+        
+        [Header("Last Letter Positions")]
+        [SerializeField] private int lastLetterXPos;
+        [SerializeField] private int lastLetterYPos;
+        
         private GraphicRaycaster mRaycaster;
         private PointerEventData mPointerEventData;
         private EventSystem mEventSystem;
@@ -68,6 +76,9 @@ namespace Mouse_Pointer
                     
                     WordSystemEvents.ON_CREATE_HIGHLIGHT?.Invoke(result.gameObject);
                     firstLetter = result.gameObject;
+
+                    firstLetterXPos = firstLetter.GetComponent<LetterScript>().XCoord;
+                    firstLetterYPos = firstLetter.GetComponent<LetterScript>().YCoord;
                 }
             }
             //Check if the left Mouse button is held down
@@ -83,28 +94,27 @@ namespace Mouse_Pointer
                 }
                 
                 //For every result returned, output the name of the GameObject on the Canvas hit by the Ray
-                foreach (RaycastResult result in results)
-                {
-                    if (!result.gameObject.CompareTag("LetterCell")) return;
-                    //checks if the user is trying to repeat the last letter collected
-                    if (latestLetter == result.gameObject) return;
-                    
-                    //checks if the user is trying to access any of the collected letters
-                    foreach (var letters in collectedLetters)
-                    {
-                        if (result.gameObject == letters)
-                        {
-                            return;
-                        }
-                    }
-                    
-                    //each new collected letter will be added to the list
-                    result.gameObject.GetComponent<LetterScript>().Img.color = highlightColor;
-                    collectedLetters.Add(result.gameObject);
-                    latestLetter = result.gameObject;
-                    collectedWord += result.gameObject.GetComponent<LetterScript>().Letter;
-                }
-                
+                // foreach (RaycastResult result in results)
+                // {
+                //     if (!result.gameObject.CompareTag("LetterCell")) return;
+                //     //checks if the user is trying to repeat the last letter collected
+                //     if (latestLetter == result.gameObject) return;
+                //     
+                //     //checks if the user is trying to access any of the collected letters
+                //     foreach (var letters in collectedLetters)
+                //     {
+                //         if (result.gameObject == letters)
+                //         {
+                //             return;
+                //         }
+                //     }
+                //     
+                //     //each new collected letter will be added to the list
+                //     result.gameObject.GetComponent<LetterScript>().Img.color = highlightColor;
+                //     collectedLetters.Add(result.gameObject);
+                //     latestLetter = result.gameObject;
+                //     collectedWord += result.gameObject.GetComponent<LetterScript>().Letter;
+                // }
             }
             
             //Check if the left Mouse button is released
@@ -133,11 +143,51 @@ namespace Mouse_Pointer
                     
                     WordSystemEvents.ON_RELEASE_HIGHLIGHT?.Invoke(result.gameObject);
                     lastLetter = result.gameObject;
+                    
+                    lastLetterXPos = lastLetter.GetComponent<LetterScript>().XCoord;
+                    lastLetterYPos = lastLetter.GetComponent<LetterScript>().YCoord;
                 }
                 
+                ConstructWord();
                 WordSystemEvents.ON_WORD_VALIDATION?.Invoke(collectedWord);
             }
             #endregion
+        }
+
+        private void ConstructWord()
+        {
+            if (lastLetterYPos == firstLetterYPos && lastLetterXPos > firstLetterYPos)
+            {
+                Debug.Log("EAST");
+            }
+            else if (lastLetterYPos == firstLetterYPos && lastLetterXPos < firstLetterXPos)
+            {
+                Debug.Log("WEST");
+            }
+            else if (lastLetterYPos > firstLetterYPos && lastLetterXPos == firstLetterXPos)
+            {
+                Debug.Log("SOUTH");   
+            }
+            else if (lastLetterYPos < firstLetterYPos && lastLetterXPos == firstLetterXPos)
+            {
+                Debug.Log("NORTH");
+            }
+            else if (lastLetterYPos < firstLetterYPos && lastLetterXPos > firstLetterXPos)
+            {
+                Debug.Log("NORTH EAST");
+            }
+            else if (lastLetterYPos > firstLetterYPos && lastLetterXPos > firstLetterXPos)
+            {
+                Debug.Log("SOUTH EAST");
+            }
+            else if (lastLetterYPos < firstLetterYPos && lastLetterXPos < firstLetterXPos)
+            {
+                Debug.Log("NORTH WEST");
+            }
+            else if (lastLetterYPos > firstLetterYPos && lastLetterXPos < firstLetterXPos)
+            {
+                Debug.Log("SOUTH WEST");
+            }
         }
 
         private void ConvertWordColor(bool isWordValid)
@@ -174,6 +224,11 @@ namespace Mouse_Pointer
             collectedWord = null;
             firstLetter = null;
             lastLetter = null;
+            
+            firstLetterXPos = 0;
+            firstLetterYPos = 0;
+            lastLetterXPos = 0;
+            lastLetterYPos = 0;
         }
 
         private void OnEnable()
