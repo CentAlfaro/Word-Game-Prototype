@@ -7,6 +7,10 @@ namespace Grid_System.Word_Related
 {
     public class WordGenerator : MonoBehaviour
     {
+        [Header("Grid Size")] 
+        [SerializeField] private int xSize = 5;
+        [SerializeField] private int ySize = 5; 
+        
         [Header("Data References")]
         [SerializeField] private List<WordList> wordData;
         [SerializeField] private int rng;
@@ -33,7 +37,7 @@ namespace Grid_System.Word_Related
                 newWordObj.GetComponent<WordScript>().SetValues(word);
             }
             wordValidator.InitializeWordCount(wordData[rng].wordList.Count);
-            gridGenerator.GenerateGrid(wordData[rng].wordListID);
+            gridGenerator.GenerateGrid(wordData[rng].wordListID, xSize, ySize);
         }
     }
 }
