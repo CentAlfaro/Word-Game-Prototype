@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Grid_System.Letter_Related;
 using Static_Data;
 using UnityEngine;
@@ -7,8 +8,14 @@ namespace Grid_System
 {
     public class GridGenerator : MonoBehaviour
     {
+        [Header("Grid Items")]
+        [SerializeField] private List<LetterScript> letters;
+        
+        [Header("References")]
         [SerializeField] private GameObject letterPrefab;
         [SerializeField] private GameObject gridContainer;
+
+        public List<LetterScript> Letters => letters;
         
         public void GenerateGrid(string dataID, int xSize, int ySize)
         {
@@ -23,8 +30,10 @@ namespace Grid_System
             foreach (var cellData in ArrayList.CellDataList[dataID])
             {
                 var currentLetter = Instantiate(letterPrefab, gridContainer.transform);
-                currentLetter.name = $"Letter {cellData.Letter}";
+                currentLetter.name = $"{cellData.Letter} holder";
                 currentLetter.GetComponentInChildren<LetterScript>().SetValues(xCoordinate, yCoordinate, cellData.Letter, cellData.AssignedInt);
+                currentLetter.GetComponentInChildren<LetterScript>().gameObject.name = $"Letter {cellData.Letter}";
+                letters.Add(currentLetter.GetComponentInChildren<LetterScript>());
 
                 if (xCoordinate < xSize)
                 {

@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using Events;
+using Grid_System;
 using Grid_System.Letter_Related;
+using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.Serialization;
@@ -13,7 +15,10 @@ namespace Mouse_Pointer
         [Header("Temporary Data Variables")]
         [SerializeField] private List<GameObject> collectedLetters = new List<GameObject>();
         [SerializeField] private string collectedWord;
-        
+
+        [Header("Script References")]
+        [SerializeField] private GridGenerator gridGenerator;
+
         [Header("Color References")] 
         [SerializeField] private Color defaultColor;
         [SerializeField] private Color highlightColor;
@@ -156,38 +161,166 @@ namespace Mouse_Pointer
 
         private void ConstructWord()
         {
-            if (lastLetterYPos == firstLetterYPos && lastLetterXPos > firstLetterYPos)
+            // These are the coordinates for the plot point that "gathers" each letter.
+            var validationYPos = firstLetterYPos;
+            var validationXPos = firstLetterXPos;
+            
+            // The difference is calculated and tested for 45-degree lines
+            if (lastLetterYPos != firstLetterYPos && lastLetterXPos != firstLetterXPos)
+            {
+                var yDifference = math.abs(lastLetterYPos - firstLetterYPos);
+                var xDifference = math.abs(lastLetterXPos - firstLetterXPos);
+
+                if (yDifference != xDifference)
+                {
+                    Debug.Log("MISINPUT");
+                    return;
+                }
+            }
+
+            #region DIRECTIONAL_VALIDATION
+            //EAST
+            if (lastLetterYPos == firstLetterYPos && lastLetterXPos > firstLetterXPos)
             {
                 Debug.Log("EAST");
+                while (validationXPos <= lastLetterXPos)
+                {
+                    foreach (var letter in gridGenerator.Letters)
+                    {
+                        if (letter.XCoord == validationXPos && letter.YCoord == validationYPos)
+                        {
+                            collectedWord += letter.Letter;
+                        }
+                    }
+                    validationXPos++;
+                }
             }
+            
+            //WEST
             else if (lastLetterYPos == firstLetterYPos && lastLetterXPos < firstLetterXPos)
             {
                 Debug.Log("WEST");
+                while (validationXPos >= lastLetterXPos)
+                {
+                    foreach (var letter in gridGenerator.Letters)
+                    {
+                        if (letter.XCoord == validationXPos && letter.YCoord == validationYPos)
+                        {
+                            collectedWord += letter.Letter;
+                        }
+                    }
+                    validationXPos--;
+                }
             }
+            
+            //SOUTH
             else if (lastLetterYPos > firstLetterYPos && lastLetterXPos == firstLetterXPos)
             {
-                Debug.Log("SOUTH");   
+                Debug.Log("SOUTH");
+                while (validationYPos <= lastLetterYPos)
+                {
+                    foreach (var letter in gridGenerator.Letters)
+                    {
+                        if (letter.XCoord == validationXPos && letter.YCoord == validationYPos)
+                        {
+                            collectedWord += letter.Letter;
+                        }
+                    }
+                    validationYPos++;
+                }
             }
+            
+            //NORTH
             else if (lastLetterYPos < firstLetterYPos && lastLetterXPos == firstLetterXPos)
             {
                 Debug.Log("NORTH");
+                while (validationYPos >= lastLetterYPos)
+                {
+                    foreach (var letter in gridGenerator.Letters)
+                    {
+                        if (letter.XCoord == validationXPos && letter.YCoord == validationYPos)
+                        {
+                            collectedWord += letter.Letter;
+                        }
+                    }
+                    validationYPos--;
+                }
             }
+            
+            //NORTH-EAST
             else if (lastLetterYPos < firstLetterYPos && lastLetterXPos > firstLetterXPos)
             {
                 Debug.Log("NORTH EAST");
+                while (validationYPos >= lastLetterYPos && validationXPos <= lastLetterXPos)
+                {
+                    foreach (var letter in gridGenerator.Letters)
+                    {
+                        if (letter.XCoord == validationXPos && letter.YCoord == validationYPos)
+                        {
+                            collectedWord += letter.Letter;
+                        }
+                    }
+                    validationXPos++;
+                    validationYPos--;
+                }
             }
+            
+            //SOUTH-EAST
             else if (lastLetterYPos > firstLetterYPos && lastLetterXPos > firstLetterXPos)
             {
                 Debug.Log("SOUTH EAST");
+                while (validationYPos <= lastLetterYPos && validationXPos <= lastLetterXPos)
+                {
+                    foreach (var letter in gridGenerator.Letters)
+                    {
+                        if (letter.XCoord == validationXPos && letter.YCoord == validationYPos)
+                        {
+                            collectedWord += letter.Letter;
+                        }
+                    }
+                    validationXPos++;
+                    validationYPos++;
+                }
             }
+            
+            //NORTH-WEST
             else if (lastLetterYPos < firstLetterYPos && lastLetterXPos < firstLetterXPos)
             {
                 Debug.Log("NORTH WEST");
+                while (validationYPos >= lastLetterYPos && validationXPos >= lastLetterXPos)
+                {
+                    foreach (var letter in gridGenerator.Letters)
+                    {
+                        if (letter.XCoord == validationXPos && letter.YCoord == validationYPos)
+                        {
+                            collectedWord += letter.Letter;
+                        }
+                    }
+                    validationXPos--;
+                    validationYPos--;
+                }
             }
+            
+            //SOUTH-WEST
             else if (lastLetterYPos > firstLetterYPos && lastLetterXPos < firstLetterXPos)
             {
                 Debug.Log("SOUTH WEST");
+                while (validationYPos <= lastLetterYPos && validationXPos >= lastLetterXPos)
+                {
+                    foreach (var letter in gridGenerator.Letters)
+                    {
+                        if (letter.XCoord == validationXPos && letter.YCoord == validationYPos)
+                        {
+                            collectedWord += letter.Letter;
+                        }
+                    }
+                    validationXPos--;
+                    validationYPos++;
+                }
             }
+            #endregion
+            
+            Debug.Log(collectedWord);
         }
 
         private void ConvertWordColor(bool isWordValid)
